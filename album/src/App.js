@@ -1,28 +1,31 @@
-import "./styles/global.css";
-import NavBar from "./components/navbar";
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   Redirect,
 } from "react-router-dom";
+import { Provider } from "react-redux";
+import store from "./redux/store";
+
+import NavBar from "./components/navbar";
 import AlbumView from "./pages/albumView";
 import AlbumList from "./pages/albumList";
+import "./styles/global.css";
 
 function App() {
   return (
-    <>
+    <Provider store={store}>
       <header>
         <NavBar />
       </header>
       <Router>
         <Switch>
-          <Route path="/albumlist" component={AlbumList} />
-          <Route path="/albums/:id" component={AlbumView} />
+          <Route path="/albumlist" component={AlbumList}/>
+          <Route path="/albums/:id" component={AlbumView}/>
           <Redirect from="/" to="/albumlist" />
         </Switch>
       </Router>
-    </>
+    </Provider>
   );
 }
 

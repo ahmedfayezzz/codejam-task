@@ -1,0 +1,14 @@
+.container{
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  background-color: #3C6E71;
+  padding: 1rem;
+}
+.logo{
+  border: 1px solid white;
+  color: white; 
+  display: inline-block;
+  padding:5px;
+}

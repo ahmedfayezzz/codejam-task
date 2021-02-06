@@ -58,7 +58,9 @@ const AlbumView = (props) => {
         />
         <button
           onClick={() =>
-            setSelected(selected < thisAlbumImages.length - 1 ? selected +1 : selected)
+            setSelected(
+              selected < thisAlbumImages.length - 1 ? selected + 1 : selected
+            )
           }
         >
           Next Photo

@@ -22,7 +22,8 @@ function App() {
         <Switch>
           <Route path="/albumlist" component={AlbumList}/>
           <Route path="/albums/:id" component={AlbumView}/>
-          <Redirect from="/" to="/albumlist" />
+          <Redirect from="/" to="/albumlist" /> 
+          <Redirect from="." to="/albumlist" /> 
         </Switch>
       </Router>
     </Provider>

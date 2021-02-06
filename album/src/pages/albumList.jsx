@@ -3,24 +3,33 @@ import { useSelector, useDispatch } from "react-redux";
 import { v4 as uuid } from "uuid";
 import styles from "../styles/albumList.module.css";
 import AlbumCard from "../components/albumCard";
-// import {fetchAlbums} from '../redux/index'
 import { fetchAlbums } from "./../redux/album/albumActions";
 import { fetchPhotos } from "./../redux/photo/photoActions";
 const AlbumList = () => {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(fetchAlbums());
-    dispatch(fetchPhotos());
+    let mounted = true;
+    if (mounted) {
+      dispatch(fetchAlbums());
+      dispatch(fetchPhotos());
+    }
+    return () => (mounted = false);
   }, []);
   const { loading, albums } = useSelector((state) => state.albums);
   const [userFilter, setUserFilter] = useState("-1");
   let albumsCards;
   if (albums) {
-    if (userFilter !== '-1'){
-      const filteredAlbums = albums.filter((album) => album.userId === parseInt(userFilter))
-      albumsCards = filteredAlbums.map((album) => <AlbumCard key={uuid()} album={album} />)
-    }else{
-      albumsCards = albums.map((album) => <AlbumCard key={uuid()} album={album} />)
+    if (userFilter !== "-1") {
+      const filteredAlbums = albums.filter(
+        (album) => album.userId === parseInt(userFilter)
+      );
+      albumsCards = filteredAlbums.map((album) => (
+        <AlbumCard key={uuid()} album={album} />
+      ));
+    } else {
+      albumsCards = albums.map((album) => (
+        <AlbumCard key={uuid()} album={album} />
+      ));
     }
   }
   return loading ? (

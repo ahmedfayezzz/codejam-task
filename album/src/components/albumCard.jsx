@@ -10,16 +10,17 @@ const AlbumCard = ({album}) => {
   const {loading,photos} = useSelector(state => state.photos)
   useEffect(()=>{
     let mounted = true;
-    if(mounted){
+    
       axios
       .get(`https://jsonplaceholder.typicode.com/users/${userId}`)
       .then((response) => {
-        setUser(response.data);
+        if(mounted)
+          setUser(response.data);
       })
       .catch((error) => {
         console.error(error);
       });
-    }
+    
     return () => mounted = false;
   },[])
   let thumbnailData
@@ -27,9 +28,7 @@ const AlbumCard = ({album}) => {
     if(photoData.albumId===id)
       thumbnailData=photoData
   })
-  // console.log(thumbnailData);
-  // console.log(userId,user);
-  return user ? ( 
+  return user && !loading? ( 
   <section className={styles.container}>
     <img className={styles.thumbnail} src={thumbnailData.url} alt={thumbnailData.title}/>
     <div className={styles.info}>

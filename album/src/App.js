@@ -15,10 +15,10 @@ import "./styles/global.css";
 function App() {
   return (
     <Provider store={store}>
-      <header>
-        <NavBar />
-      </header>
       <Router>
+        <header>
+          <NavBar />
+        </header>
         <Switch>
           <Route path="/albumlist" component={AlbumList}/>
           <Route path="/albums/:id" component={AlbumView}/>

@@ -1,0 +1,23 @@
+.container{
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.thumbnailsContainer{
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.title{
+  text-align: center;
+}
+.selected{
+  /* border: 5px solid #32a5f1; */
+  outline-style: groove;
+  outline-color: rgb(40, 18, 243);
+}
+.previewContainer{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

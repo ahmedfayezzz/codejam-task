@@ -28,7 +28,7 @@ const fetchAlbumsFailure = (error) => {
 
 export const fetchAlbums = () => {
   
-  console.log("in jehrhekjhan")
+  // console.log("in jehrhekjhan")
   return  (dispatch) => {
     dispatch(fetchAlbumsRequest());
     axios

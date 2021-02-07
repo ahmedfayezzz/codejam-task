@@ -5,35 +5,49 @@ import styles from "../styles/albumList.module.css";
 import AlbumCard from "../components/albumCard";
 import { fetchAlbums } from "./../redux/album/albumActions";
 import { fetchPhotos } from "./../redux/photo/photoActions";
+import { fetchUsers } from "../redux/user/userActions";
 const AlbumList = () => {
   const dispatch = useDispatch();
   useEffect(() => {
-    let mounted = true;
-    if (mounted) {
-      dispatch(fetchAlbums());
-      dispatch(fetchPhotos());
-    }
-    return () => (mounted = false);
+    dispatch(fetchAlbums());
+    dispatch(fetchPhotos());
+    dispatch(fetchUsers());
   }, []);
-  const { loading, albums } = useSelector((state) => state.albums);
   const [userFilter, setUserFilter] = useState("-1");
+  const albumsData  = useSelector((state) => state.albums);
+  const usersData  = useSelector((state) => state.users);
+  const photosData  = useSelector((state) => state.photos);
+  // console.log(photosData);
   let albumsCards;
-  if (albums) {
+  let usersOptions
+  if( !albumsData.loading && !usersData.loading && !photosData.loading){
+    let albums=albumsData.albums
+    let users=usersData.users
+    let photos=photosData.photos
     if (userFilter !== "-1") {
-      const filteredAlbums = albums.filter(
+      albums = albums.filter(
         (album) => album.userId === parseInt(userFilter)
       );
-      albumsCards = filteredAlbums.map((album) => (
-        <AlbumCard key={uuid()} album={album} />
-      ));
-    } else {
-      albumsCards = albums.map((album) => (
-        <AlbumCard key={uuid()} album={album} />
-      ));
-    }
+    } 
+    albumsCards = albums.map((album) => {
+      let thumbnail
+      photos.forEach(photoData=>{
+        if(photoData.albumId===album.id)
+          thumbnail=photoData
+      })
+      let albumUser
+      users.forEach(user=>{
+        if(user.id===album.userId)
+          albumUser=user
+      })
+      return <AlbumCard key={uuid()} user={albumUser} thumbnail={thumbnail} album={album} />
+    });
+    usersOptions=users.map((user,i)=><option key={uuid()} value={(i+1).toString()}>{user.name}</option>)
   }
-  return loading ? (
-    <h1>loading....</h1>
+  
+  
+  return albumsData.loading || usersData.loading || photosData.loading? (
+    <h1 style={{textAlign:'center'}}>loading....</h1>
   ) : (
     <>
       <div className={styles.filter}>
@@ -44,16 +58,7 @@ const AlbumList = () => {
           onChange={(e) => setUserFilter(e.target.value)}
         >
           <option value="-1">All users</option>
-          <option value="1">User1</option>
-          <option value="2">User2</option>
-          <option value="3">User3</option>
-          <option value="4">User4</option>
-          <option value="5">User5</option>
-          <option value="6">User6</option>
-          <option value="7">User7</option>
-          <option value="8">User8</option>
-          <option value="9">User9</option>
-          <option value="10">User10</option>
+          {usersOptions}
         </select>
       </div>
       <div className={styles.container}>{albumsCards}</div>

@@ -1,5 +1,5 @@
 import {
-  BrowserRouter as Router,
+  HashRouter as Router,
   Switch,
   Route,
   Redirect,
@@ -23,7 +23,6 @@ function App() {
           <Route path="/albumlist" component={AlbumList}/>
           <Route path="/albums/:id" component={AlbumView}/>
           <Redirect from="/" to="/albumlist" /> 
-          <Redirect from="." to="/albumlist" /> 
         </Switch>
       </Router>
     </Provider>
